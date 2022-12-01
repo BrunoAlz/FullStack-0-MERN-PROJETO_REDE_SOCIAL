@@ -8,15 +8,34 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Profile from "./pages/Profile/Profile";
 
+// HOOKS
+import { useMemo } from "react";
+
+// REDUX
+import { useSelector } from "react-redux";
+
+// MUI
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+
+// THEME SETTINGS
+import { themeSettings } from "./theme";
+
 function App() {
+  const mode = useSelector((state) => state.mode);
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/profile/:userId" element={<Profile />} />
-        </Routes>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/profile/:userId" element={<Profile />} />
+          </Routes>
+        </ThemeProvider>
       </BrowserRouter>
     </div>
   );
